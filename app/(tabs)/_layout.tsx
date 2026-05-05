@@ -46,7 +46,7 @@ const TabLayout = () => {
     >
       {tabs.map((tab) => (
         <Tabs.Screen
-          key={tab.title}
+          key={tab.name}
           name={tab.name}
           options={{
             title: tab.title,

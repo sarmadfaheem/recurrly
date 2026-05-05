@@ -6,7 +6,7 @@ const onboarding = () => {
   return (
     <View>
       <Text>onboarding</Text>
-      <Link href="/" className="p-4 bg-black m-2 text-white">
+      <Link href="/" replace className="p-4 bg-black m-2 text-white">
         Go Back
       </Link>
     </View>
