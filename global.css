@@ -119,7 +119,7 @@
   }
 
   .upcoming-card {
-    @apply mr-4 w-44 rounded-2xl border border-black/10 bg-background p-4;
+    @apply mr-4 w-45 rounded-2xl border border-black/10 bg-background p-4;
   }
 
   .upcoming-row {
@@ -223,7 +223,7 @@
   }
 
   .home-empty-state {
-    @apply py-4 text-sm font-sans-medium text-black/60;
+    @apply p-4 text-sm font-sans-medium text-black/60;
   }
 
   .auth-safe-area {
