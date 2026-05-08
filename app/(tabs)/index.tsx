@@ -4,13 +4,13 @@ import UpcomingSubscriptionCard from "@/components/upcoming-subscription-card";
 import {
   HOME_BALANCE,
   HOME_SUBSCRIPTIONS,
-  HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
 import { icons } from "@/constants/icons";
 import image from "@/constants/image";
 import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
+import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
@@ -21,6 +21,13 @@ const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
   const [expandedSubId, setExpandedSubId] = useState<string | null>(null);
+  const { user } = useUser();
+  const displayName =
+    user?.firstName ??
+    user?.fullName ??
+    user?.primaryEmailAddress?.emailAddress?.split("@")[0] ??
+    "there";
+  const avatarSource = user?.imageUrl ? { uri: user.imageUrl } : image.avatar;
 
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
@@ -31,8 +38,8 @@ export default function App() {
             {/* Header */}
             <View className="home-header">
               <View className="home-user">
-                <Image source={image.avatar} className="home-avatar" />
-                <Text className="home-user-name">{HOME_USER.name}</Text>
+                <Image source={avatarSource} className="home-avatar" />
+                <Text className="home-user-name">{displayName}</Text>
               </View>
               <Image source={icons.add} className="home-add-icon" />
             </View>
