@@ -121,7 +121,7 @@ const SignUp = () => {
         missingFields: attempt.missingFields,
         unverifiedFields: attempt.unverifiedFields,
         requiredFields: attempt.requiredFields,
-        createdSessionId: attempt.createdSessionId,
+        createdSession: !!attempt.createdSessionId,
       });
 
       if (attempt.status === "complete") {

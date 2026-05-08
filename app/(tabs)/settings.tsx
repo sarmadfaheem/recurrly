@@ -12,10 +12,10 @@ const Settings = () => {
   const { user } = useUser();
   const [signingOut, setSigningOut] = useState(false);
 
-  const fullName =
-    user?.fullName ??
-    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ??
-    "Recurrly member";
+  const joinedName = [user?.firstName, user?.lastName]
+    .filter(Boolean)
+    .join(" ");
+  const fullName = user?.fullName ?? (joinedName || "Recurrly member");
   const email = user?.primaryEmailAddress?.emailAddress ?? "";
   const avatarSource = user?.imageUrl ? { uri: user.imageUrl } : image.avatar;
 
@@ -29,6 +29,12 @@ const Settings = () => {
           setSigningOut(true);
           try {
             await signOut();
+          } catch (err) {
+            const message =
+              err instanceof Error
+                ? err.message
+                : "Something went wrong. Please try again.";
+            Alert.alert("Sign out failed", message);
           } finally {
             setSigningOut(false);
           }

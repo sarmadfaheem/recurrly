@@ -1,17 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node \"f:/sarmad-faheem/React Native/recurrly/.tmp-inspect.js\")",
-      "Bash(node -e \"console.log\\(require.resolve\\('@clerk/expo/token-cache', {paths:['f:/sarmad-faheem/React Native/recurrly']}\\)\\)\")",
       "Bash(npx --no-install tsc --noEmit -p .)",
       "Bash(npx --no-install eslint \"app\" \"components/auth\" \"lib/auth-validation.ts\")",
-      "Bash(npx --yes expo install @clerk/expo expo-secure-store)",
       "Bash(node .tmp-inspect.js)",
-      "Bash(node -e ' *)",
       "Bash(xargs grep -l \"verifyEmailCode\\\\|signUp.*finalize\\\\|SignUpFutureResource\")",
       "Bash(xargs grep -l \"verifyEmailCode\")",
-      "Bash(xargs grep -l \"verifyEmailCode\\\\|SignUpFutureResource\\\\|signUpSignal\")",
-      "Bash(npx tsc *)"
+      "Bash(xargs grep -l \"verifyEmailCode\\\\|SignUpFutureResource\\\\|signUpSignal\")"
     ]
   }
 }
