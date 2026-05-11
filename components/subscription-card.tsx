@@ -1,4 +1,5 @@
 import { formatCurrency, formatSubscriptionDateTime } from "@/lib/utils";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { clsx } from "clsx";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
@@ -15,6 +16,7 @@ const SubscriptionCard = ({
   renewalDate,
   paymentMethod,
   status,
+  brandIcon,
   expanded,
   onPress,
 }: SubscriptionCardProps) => {
@@ -42,7 +44,18 @@ const SubscriptionCard = ({
       {/* ── Header ── */}
       <View className="sub-head">
         <View className="sub-main">
-          <Image source={icon} className="sub-icon" />
+          {brandIcon ? (
+            <View className="sub-icon items-center justify-center bg-card">
+              <FontAwesome5
+                name={brandIcon.name}
+                brand
+                size={36}
+                color={brandIcon.color}
+              />
+            </View>
+          ) : (
+            <Image source={icon} className="sub-icon" />
+          )}
           <View className="sub-copy">
             <Text className="sub-title">{name}</Text>
             <Text numberOfLines={1} ellipsizeMode="tail" className="sub-meta">

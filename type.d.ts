@@ -26,6 +26,7 @@ declare global {
     billing: string;
     renewalDate?: string;
     color?: string;
+    brandIcon?: { name: string; color: string };
   }
 
   interface SubscriptionCardProps extends Omit<Subscription, "id"> {
