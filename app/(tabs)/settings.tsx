@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import { Alert, Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import image from "@/constants/image";
+import { usePostHog } from "posthog-react-native";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 const Settings = () => {
   const { signOut } = useClerk();
   const { user } = useUser();
+  const posthog = usePostHog();
   const [signingOut, setSigningOut] = useState(false);
 
   const joinedName = [user?.firstName, user?.lastName]
@@ -28,6 +30,8 @@ const Settings = () => {
         onPress: async () => {
           setSigningOut(true);
           try {
+            posthog.capture("user_signed_out");
+            posthog.reset();
             await signOut();
           } catch (err) {
             const message =

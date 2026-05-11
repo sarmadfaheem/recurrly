@@ -16,12 +16,14 @@ import { styled } from "nativewind";
 import { useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+import { usePostHog } from "posthog-react-native";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
   const [expandedSubId, setExpandedSubId] = useState<string | null>(null);
   const { user } = useUser();
+  const posthog = usePostHog();
   const displayName =
     user?.firstName ??
     user?.fullName ??
@@ -84,11 +86,17 @@ export default function App() {
           <SubscriptionCard
             {...item}
             expanded={expandedSubId === item.id}
-            onPress={() =>
+            onPress={() => {
+              const isExpanded = expandedSubId === item.id;
+              if (isExpanded) {
+                posthog.capture("subscription_collapsed", { subscription_id: item.id, name: item.name });
+              } else {
+                posthog.capture("subscription_expanded", { subscription_id: item.id, name: item.name });
+              }
               setExpandedSubId((currentId) =>
                 currentId === item.id ? null : item.id,
-              )
-            }
+              );
+            }}
           />
         )}
         keyExtractor={(item) => item.id}

@@ -22,6 +22,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+import { usePostHog } from "posthog-react-native";
 
 const SafeAreaView = styled(RNSafeAreaView);
 const StyledKAV = styled(KeyboardAvoidingView);
@@ -47,6 +48,7 @@ const extractClerkError = (err: unknown): string => {
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
+  const posthog = usePostHog();
 
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -93,9 +95,21 @@ const SignUp = () => {
         strategy: "email_code",
       });
 
+      posthog.capture("user_sign_up_initiated", { method: "email" });
       setPendingVerification(true);
     } catch (err) {
-      setErrors({ global: extractClerkError(err) });
+      const message = extractClerkError(err);
+      posthog.capture("$exception", {
+        $exception_list: [
+          {
+            type: err instanceof Error ? err.name : "SignUpError",
+            value: message,
+            stacktrace: { type: "raw", frames: err instanceof Error ? (err.stack ?? "") : "" },
+          },
+        ],
+        $exception_source: "sign-up",
+      });
+      setErrors({ global: message });
     } finally {
       setSubmitting(false);
     }
@@ -125,6 +139,15 @@ const SignUp = () => {
       });
 
       if (attempt.status === "complete") {
+        posthog.identify(emailAddress.trim(), {
+          $set: {
+            email: emailAddress.trim(),
+            first_name: firstName.trim(),
+            last_name: lastName.trim(),
+          },
+          $set_once: { sign_up_date: new Date().toISOString() },
+        });
+        posthog.capture("user_signed_up", { method: "email" });
         await setActive({ session: attempt.createdSessionId });
         router.replace("/(tabs)");
         return;
@@ -135,7 +158,18 @@ const SignUp = () => {
         global: `Sign-up incomplete (status: ${attempt.status}). Clerk still needs: ${missing}. Check the dashboard's required fields.`,
       });
     } catch (err) {
-      setErrors((prev) => ({ ...prev, code: extractClerkError(err) }));
+      const codeMessage = extractClerkError(err);
+      posthog.capture("$exception", {
+        $exception_list: [
+          {
+            type: err instanceof Error ? err.name : "VerificationError",
+            value: codeMessage,
+            stacktrace: { type: "raw", frames: err instanceof Error ? (err.stack ?? "") : "" },
+          },
+        ],
+        $exception_source: "sign-up-verify",
+      });
+      setErrors((prev) => ({ ...prev, code: codeMessage }));
     } finally {
       setSubmitting(false);
     }
