@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --no-install tsc --noEmit -p .)",
+      "Bash(npx --no-install eslint \"app\" \"components/auth\" \"lib/auth-validation.ts\")",
+      "Bash(node .tmp-inspect.js)",
+      "Bash(xargs grep -l \"verifyEmailCode\\\\|signUp.*finalize\\\\|SignUpFutureResource\")",
+      "Bash(xargs grep -l \"verifyEmailCode\")",
+      "Bash(xargs grep -l \"verifyEmailCode\\\\|SignUpFutureResource\\\\|signUpSignal\")"
+    ]
+  }
+}

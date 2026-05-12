@@ -4,5 +4,6 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "cSpell.words": ["Nativewind"]
+  "cSpell.words": ["Nativewind"],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
