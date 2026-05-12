@@ -36,10 +36,10 @@ export default function App() {
     addSubscription(newSubscription);
     posthog.capture("subscription_created", {
       subscription_id: newSubscription.id,
-      name: newSubscription.name,
-      category: newSubscription.category,
+      category: newSubscription.category ?? "Uncategorized",
       billing: newSubscription.billing,
     });
+    setCreateModalOpen(false);
   };
 
   return (
@@ -106,9 +106,9 @@ export default function App() {
             onPress={() => {
               const isExpanded = expandedSubId === item.id;
               if (isExpanded) {
-                posthog.capture("subscription_collapsed", { subscription_id: item.id, name: item.name });
+                posthog.capture("subscription_collapsed", { subscription_id: item.id });
               } else {
-                posthog.capture("subscription_expanded", { subscription_id: item.id, name: item.name });
+                posthog.capture("subscription_expanded", { subscription_id: item.id });
               }
               setExpandedSubId((currentId) =>
                 currentId === item.id ? null : item.id,

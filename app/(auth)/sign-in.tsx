@@ -55,12 +55,12 @@ const STRATEGY_PRIORITY: SecondFactorStrategy[] = [
 ];
 
 const pickSecondFactor = (
-  supported: ReadonlyArray<{
+  supported: readonly {
     strategy: string;
     phoneNumberId?: string;
     emailAddressId?: string;
     safeIdentifier?: string;
-  }>,
+  }[],
 ): SecondFactorState | null => {
   for (const strategy of STRATEGY_PRIORITY) {
     const match = supported.find((f) => f.strategy === strategy);
@@ -150,11 +150,11 @@ const SignIn = () => {
 
   const completeSignIn = async (sessionId: string | null) => {
     if (!setActive) return;
+    await setActive({ session: sessionId });
     posthog.identify(emailAddress.trim(), {
       $set: { email: emailAddress.trim() },
     });
     posthog.capture("user_signed_in", { method: "email" });
-    await setActive({ session: sessionId });
     router.replace("/(tabs)");
   };
 

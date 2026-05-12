@@ -30,9 +30,9 @@ const Settings = () => {
         onPress: async () => {
           setSigningOut(true);
           try {
+            await signOut();
             posthog.capture("user_signed_out");
             posthog.reset();
-            await signOut();
           } catch (err) {
             const message =
               err instanceof Error

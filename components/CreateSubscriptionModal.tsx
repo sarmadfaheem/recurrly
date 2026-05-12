@@ -1,6 +1,5 @@
 import { icons } from "@/constants/icons";
 import { matchBrandIcon } from "@/lib/brand-icons";
-import { posthog } from "@/src/config/posthog";
 import { clsx } from "clsx";
 import dayjs from "dayjs";
 import { useMemo, useState } from "react";
@@ -60,7 +59,7 @@ const CreateSubscriptionModal = ({
   const parsedPrice = useMemo(() => Number(price), [price]);
   const isNameValid = name.trim().length > 0;
   const isPriceValid =
-    price.trim() !== "" && !Number.isNaN(parsedPrice) && parsedPrice > 0;
+    price.trim() !== "" && Number.isFinite(parsedPrice) && parsedPrice > 0;
   const isValid = isNameValid && isPriceValid;
 
   const resetForm = () => {
@@ -101,13 +100,6 @@ const CreateSubscriptionModal = ({
       color: CATEGORY_COLORS[category],
       brandIcon,
     };
-
-    posthog.capture("subscription_created", {
-      subscription_id: newSubscription.id,
-      name: newSubscription.name,
-      category: newSubscription.category ?? "Uncategorized",
-      billing: newSubscription.billing,
-    });
 
     onCreate(newSubscription);
     resetForm();

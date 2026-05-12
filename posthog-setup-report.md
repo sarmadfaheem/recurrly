@@ -28,12 +28,12 @@ The wizard has completed a deep integration of PostHog analytics into your Recur
 
 We've built some insights and a dashboard for you to keep an eye on user behavior, based on the events we just instrumented:
 
-- [Analytics basics dashboard](/dashboard/672430)
-- [Sign-up funnel: initiated → completed](/insights/kFzv50DJ)
-- [Daily sign-ins](/insights/EkYKPcVj)
-- [New sign-ups over time](/insights/bVonDjjN)
-- [Subscription engagement](/insights/S8kTpaZD)
-- [User churn (sign-outs)](/insights/LPj158U3)
+- [Analytics basics dashboard](https://eu.posthog.com/dashboard/672430)
+- [Sign-up funnel: initiated → completed](https://eu.posthog.com/insights/kFzv50DJ)
+- [Daily sign-ins](https://eu.posthog.com/insights/EkYKPcVj)
+- [New sign-ups over time](https://eu.posthog.com/insights/bVonDjjN)
+- [Subscription engagement](https://eu.posthog.com/insights/S8kTpaZD)
+- [User churn (sign-outs)](https://eu.posthog.com/insights/LPj158U3)
 
 ### Agent skill
 

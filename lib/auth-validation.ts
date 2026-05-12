@@ -26,6 +26,6 @@ export const validateRequired = (
 export const validateCode = (value: string): string | null => {
   const digits = value.replace(/\D/g, "");
   if (!digits) return "Enter the code we sent";
-  if (digits.length < 6) return "Code must be 6 digits";
+  if (digits.length !== 6) return "Code must be 6 digits";
   return null;
 };

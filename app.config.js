@@ -54,6 +54,7 @@ export default {
       ],
       '@clerk/expo',
       'expo-secure-store',
+      'expo-localization',
     ],
     experiments: {
       typedRoutes: true,

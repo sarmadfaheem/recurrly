@@ -33,7 +33,11 @@ const AuthButton = ({
         )}
         {...rest}
       >
-        <Text className="auth-secondary-button-text">{label}</Text>
+        {loading ? (
+          <ActivityIndicator color="#081126" />
+        ) : (
+          <Text className="auth-secondary-button-text">{label}</Text>
+        )}
       </Pressable>
     );
   }

@@ -130,15 +130,8 @@ const SignUp = () => {
         code: code.trim(),
       });
 
-      console.log("[signUp] verify attempt result:", {
-        status: attempt.status,
-        missingFields: attempt.missingFields,
-        unverifiedFields: attempt.unverifiedFields,
-        requiredFields: attempt.requiredFields,
-        createdSession: !!attempt.createdSessionId,
-      });
-
       if (attempt.status === "complete") {
+        await setActive({ session: attempt.createdSessionId });
         posthog.identify(emailAddress.trim(), {
           $set: {
             email: emailAddress.trim(),
@@ -148,7 +141,6 @@ const SignUp = () => {
           $set_once: { sign_up_date: new Date().toISOString() },
         });
         posthog.capture("user_signed_up", { method: "email" });
-        await setActive({ session: attempt.createdSessionId });
         router.replace("/(tabs)");
         return;
       }

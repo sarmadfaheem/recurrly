@@ -7,7 +7,7 @@ type SubscriptionsState = {
 };
 
 export const useSubscriptionsStore = create<SubscriptionsState>((set) => ({
-  subscriptions: HOME_SUBSCRIPTIONS,
+  subscriptions: structuredClone(HOME_SUBSCRIPTIONS),
   addSubscription: (sub) =>
     set((state) => ({ subscriptions: [sub, ...state.subscriptions] })),
 }));
